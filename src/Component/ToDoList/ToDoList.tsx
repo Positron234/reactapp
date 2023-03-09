@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-
+import ToDoListElement from "./ToDoListElement";
 const ToDoList = () => {
     type listelement={
         name:string,
@@ -17,32 +17,36 @@ const ToDoList = () => {
         SetName('')
         Setdesc('')
     }
+    const OnDeleteClick = (index:number) => {
+        const filtered = list.filter((el, i) => i !== index);
+        Setlist(filtered);
+    }
     return (
         <div>
             <div>
             <input
                 type={"text"}
                 value={Name}
-                onChange={(e)=>SetName(e.target.value)}/>
+                    onChange={(e) => SetName(e.target.value)}
+                />
             <input
                 type={"text"}
                 value={desc}
                 onChange={(e)=>Setdesc(e.target.value)}/>
             </div>
             <div>
-            <button onClick={()=>AddElementInList()}>
-                Добавить в список
-            </button>
+                <button onClick={()=>AddElementInList()}>
+                    Добавить в список
+                </button>
             </div>
             <div>
-                {list.map((el:listelement,i:number)=><div>
-                    <div>
-                        {el.name}
-                    </div>
-                    <div>
-                        {el.desc}
-                    </div>
-                    </div>)}
+                {list.map((el: listelement, i: number) =>
+                    <ToDoListElement
+                        name={el.name}
+                        desc={el.desc}
+                        onDeleteClick={()=>OnDeleteClick(i)}
+                        key={i} />
+                )}
             </div>
         </div>
     );
